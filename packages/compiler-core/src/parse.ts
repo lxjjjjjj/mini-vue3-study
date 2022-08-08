@@ -109,9 +109,12 @@ function startsWithEndTagOpen(source: string, tag: string) {
 function parseTag(context: any, type: TagType): any {
   // 发现如果不是 > 的话，那么就把字符都收集起来 ->div
   // 正则
+  // ? 匹配前面的子表达式零次或一次
+  // ^ 匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 \^。
+  // ^<\/ 表示匹配以</开头的字符
+  //
   const match: any = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source);
-  const tag = match[1];
-
+  const tag = match[1]; 
   // 移动光标
   // <div
   advanceBy(context, match[0].length);
