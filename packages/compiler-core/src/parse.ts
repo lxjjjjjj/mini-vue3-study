@@ -112,8 +112,10 @@ function parseTag(context: any, type: TagType): any {
   // ? 匹配前面的子表达式零次或一次
   // ^ 匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 \^。
   // ^<\/ 表示匹配以</开头的字符
-  //
+  // \r 匹配回车符号 \n 匹配换行符号 \t 制表符号(什么是制表符号 大概就是一些格式符号，比如换行居中符号 \f匹配换行符号) 空格 
   const match: any = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source);
+  // match的结果就是匹配</开头的标签符号名称
+  console.log('match', match)
   const tag = match[1]; 
   // 移动光标
   // <div

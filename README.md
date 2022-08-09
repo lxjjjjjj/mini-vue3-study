@@ -2,45 +2,14 @@
 
 ## mini-vue  [![github](https://img.shields.io/badge/%E5%82%AC%E5%AD%A6%E7%A4%BE-mini--vue-blue)](https://github.com/cuixiaorui/mini-vue)
 
-实现最简 vue3 模型，用于深入学习 vue3， 让你更轻松的理解 vue3 的核心逻辑
 
 ## Usage
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
-历经半年我把这个项目做成了一套系列视频课
+
 
 [【课程介绍】](https://www.bilibili.com/video/BV16Z4y1r7Wp?spm_id_from=333.999.0.0)
-
-课程的目标是通过构建自己的 mini-vue3 （同这个库一个复杂级别）来深入学习理解 vue3 源码
-
-只有手写一遍，才能真正的掌握源码
-
-进阶高级前端的编程思想有哪些
-
-如何掌握 Vue3 源码原理实现
-
-面试如何脱颖而出
-
-帮你解决以上痛点问题 [胜利]
-
-vx：cuixr1314
-
-备注一下： github mini-vue
-
-## Why
-
-当我们需要深入学习 vue3 时，我们就需要看源码来学习，但是像这种工业级别的库，源码中有很多逻辑是用于处理边缘情况或者是兼容处理逻辑，是不利于我们学习的。
-
-我们应该关注于核心逻辑，而这个库的目的就是把 vue3 源码中最核心的逻辑剥离出来，只留下核心逻辑，以供大家学习。
-
-## How
-
-基于 vue3 的功能点，一点一点的拆分出来。
-
-代码命名会保持和源码中的一致，方便大家通过命名去源码中查找逻辑。
-
-### Tasking
 
 #### runtime-core
 

@@ -1,3 +1,4 @@
+// 自执行函数 var s;(function(s){xxxx})(s||(s = {}))
 var ShapeFlags;
 (function (ShapeFlags) {
     ShapeFlags[ShapeFlags["ELEMENT"] = 1] = "ELEMENT";
@@ -6,7 +7,19 @@ var ShapeFlags;
     ShapeFlags[ShapeFlags["ARRAY_CHILDREN"] = 16] = "ARRAY_CHILDREN";
     ShapeFlags[ShapeFlags["SLOTS_CHILDREN"] = 32] = "SLOTS_CHILDREN";
 })(ShapeFlags || (ShapeFlags = {}));
-
+// 这段代码执行完之后输出ShapeFlags为
+// {
+//     1: "ELEMENT", //元素
+//     4: "STATEFUL_COMPONENT", // 有状态组件
+//     8: "TEXT_CHILDREN", // string的child
+//     16: "ARRAY_CHILDREN", // array的child
+//     32: "SLOTS_CHILDREN", // 如果是对象的话就是slot的child
+//     ARRAY_CHILDREN: 16,
+//     ELEMENT: 1,
+//     SLOTS_CHILDREN: 32,
+//     STATEFUL_COMPONENT: 4,
+//     TEXT_CHILDREN: 8,
+// }
 const toDisplayString = (val) => {
     return String(val);
 };
@@ -77,6 +90,7 @@ function getShapeFlag(type) {
 }
 
 const h = (type, props, children) => {
+    console.log('这里是第一步')
     return createVNode(type, props, children);
 };
 
@@ -353,6 +367,7 @@ function isReactive(value) {
     return !!value["__v_isReactive"];
 }
 function createReactiveObject(target, proxyMap, baseHandlers) {
+    console.log('组件的props创建为readonly')
     const existingProxy = proxyMap.get(target);
     if (existingProxy) {
         return existingProxy;
@@ -633,6 +648,7 @@ function createRenderer(options) {
         console.log("调用 path");
         patch(null, vnode, container);
     };
+    // patch方法 n2 是父节点 
     function patch(n1, n2, container = null, anchor = null, parentComponent = null) {
         const { type, shapeFlag } = n2;
         switch (type) {
@@ -643,11 +659,20 @@ function createRenderer(options) {
                 processFragment(n1, n2, container);
                 break;
             default:
+                console.warn('初始化根节点的type', type)
+                // 根节点 {
+                //     name: "App",
+                //     setup() {},
+                //     render() {
+                //       return h("div", { tId: 1 }, [h("p", {}, "主页"), h(HelloWorld)]);
+                //     },
+                //   }
                 if (shapeFlag & 1) {
                     console.log("处理 element");
                     processElement(n1, n2, container, anchor, parentComponent);
                 }
                 else if (shapeFlag & 4) {
+                    // 因为根节点不是string是个对象所以走到处理component里来
                     console.log("处理 component");
                     processComponent(n1, n2, container, parentComponent);
                 }
@@ -878,9 +903,11 @@ function createRenderer(options) {
     }
     function processComponent(n1, n2, container, parentComponent) {
         if (!n1) {
+            // 因为一开始根节点的父节点是null 所以是第一次挂载
             mountComponent(n2, container, parentComponent);
         }
         else {
+            // 之后有父节点 就都是update了
             updateComponent(n1, n2);
         }
     }
@@ -900,6 +927,7 @@ function createRenderer(options) {
         }
     }
     function mountComponent(initialVNode, container, parentComponent) {
+        // 只有根节点才需要去创建组件实例
         const instance = (initialVNode.component = createComponentInstance(initialVNode, parentComponent));
         console.log(`创建组件实例:${instance.type.name}`);
         setupComponent(instance);

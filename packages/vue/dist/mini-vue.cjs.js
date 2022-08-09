@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
-
+ 
 var ShapeFlags;
 (function (ShapeFlags) {
     ShapeFlags[ShapeFlags["ELEMENT"] = 1] = "ELEMENT";
@@ -81,6 +81,7 @@ function getShapeFlag(type) {
 }
 
 const h = (type, props, children) => {
+    console.log('这里是第一步')
     return createVNode(type, props, children);
 };
 
